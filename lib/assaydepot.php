@@ -2,11 +2,11 @@
 
 class AssayDepot {
 
-    private $auth_token;
+    private $access_token;
     private $url;
 
-    private function __construct($auth_token, $url) {
-        $this->auth_token = $auth_token;
+    private function __construct($access_token, $url) {
+        $this->access_token = $access_token;
         $this->url = $url;
     }
 
@@ -25,13 +25,13 @@ class AssayDepot {
     function search($search_type, $query, $facets) {
         $params = array($this->url, $search_type, 'q', $query);
         //sort out facets here
-        array_push($params, "auth_token", $this->$auth_token);
+        array_push($params, "access_token", $this->$access_token);
     }
 
     function get($search_type, $query, $id, $facets) {
         $params = array($this->url, $search_type, $id, 'q', $query);
         //sort out facets here
-        array_push($params, "auth_token", $this->$auth_token);
+        array_push($params, "access_token", $this->$access_token);
     }
 
 }
