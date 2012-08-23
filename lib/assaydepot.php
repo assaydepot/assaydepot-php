@@ -23,17 +23,17 @@ class AssayDepot {
         return vsprintf($format, $this->params);
     }
 
-    function get_url() {
-        $format = '%s/%s/%s.json?';
-        $format = trim(str_repeat("%s=%s&", count($this->params)-3), "&");
-        return vsprintf($format, $this->params);
-    }
-
     function search($search_type, $query, $facets) {
         array_push($this->params, $this->url, $search_type, 'q', $query);
         options_build();
         //sort out facets here
         array_push($this->params, "access_token", $this->$access_token);
+    }
+
+    function get_url() {
+        $format = '%s/%s/%s.json?';
+        $format = trim(str_repeat("%s=%s&", count($this->params)-3), "&");
+        return vsprintf($format, $this->params);
     }
 
     function get($search_type, $query, $id, $facets) {
