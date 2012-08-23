@@ -9,6 +9,9 @@ class AssayDepot {
     private $facets;
     private $json_query;
 
+    /**
+     * Set private variables to be used throughout class
+     */
     private function __construct($access_token, $url) {
         $this->access_token = $access_token;
         $this->url = $url;
@@ -19,6 +22,14 @@ class AssayDepot {
                                "sort_order" => "");
     }
 
+    /**
+     * search_url() - constructs URL for searching Assay Depot based
+     * on $params array
+     *
+     * search() - combines all the pieces to build the URL into an
+     * array and then uses search_url() to reutrn the built URL string
+     * to pass into json_output().
+     */
     private function search_url() {
         $format = '%s/%s.json?';
         $format = trim(str_repeat("%s=%s&", count($this->params)-2), "&");
@@ -33,6 +44,13 @@ class AssayDepot {
         $this->json_query = search_url();
     }
 
+    /**
+     * get_url() - similar functionality to search_url() with an extra
+     * paramater
+     *
+     * get() - similar functionality to search(), the difference being
+     * the information returned.
+     */
     private function get_url() {
         $format = '%s/%s/%s.json?';
         $format = trim(str_repeat("%s=%s&", count($this->params)-3), "&");
@@ -47,6 +65,14 @@ class AssayDepot {
         $this->json_query = get_url();
     }
 
+    /**
+     * option_set() - specifies a value for one of 4 known options.
+     *
+     * option_unset() - removes the value previously set for an option
+     *
+     * options_build() - takes the set options and adds them to
+     * $params, which is used to build the URL strings
+     */
     public function option_set($option, $value) {
         $known_options = array("page", "per_page", "sort_by", "sort_order");
         if ($option != "" && $value != "") {
@@ -71,6 +97,16 @@ class AssayDepot {
         }
     }
 
+    /**
+     * facet_set() - specifies a key/value pair for a facet. Can be
+     * set multiple times per URL.
+     *
+     * facet_unset() - removes the key/value pair previously set for a
+     * facet
+     *
+     * facets_build() - takes the set facets and adds them to
+     * $params, which is used to build the URL strings
+     */
     public function facet_set($facet, $value) {
         if ($facet != "" && $value != "") {
             $this->facets[$facet] = $value;
@@ -89,10 +125,15 @@ class AssayDepot {
         }
     }
 
+    /**
+     * json_output() - takes the URL string built through get() or
+     * search(), fetches the json string returned by the API, and then
+     * parses it to an associative array.
+     */
     public function json_output() {
         if ($this->json_query != "") {
             $json = get_file_contents($this-json_query);
-            return json_decode($json);
+            return json_decode($json, true);
         } else {
             die("Assay Depot Query URL is empty.");
         }
