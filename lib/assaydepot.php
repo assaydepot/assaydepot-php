@@ -6,6 +6,8 @@ class AssayDepot {
     private $url;
     private $params;
     private $options;
+    private $facets;
+    private $json_query;
 
     private function __construct($access_token, $url) {
         $this->access_token = $access_token;
@@ -17,74 +19,84 @@ class AssayDepot {
                                "sort_order" => "");
     }
 
-    function search_url() {
+    private function search_url() {
         $format = '%s/%s.json?';
         $format = trim(str_repeat("%s=%s&", count($this->params)-2), "&");
         return vsprintf($format, $this->params);
     }
 
-    function search($search_type, $query, $facets) {
+    public function search($search_type, $query, $facets) {
         array_push($this->params, $this->url, $search_type, 'q', $query);
         options_build();
-        //sort out facets here
+        facets_build();
         array_push($this->params, "access_token", $this->$access_token);
+        $this->json_query = search_url();
     }
 
-    function get_url() {
+    private function get_url() {
         $format = '%s/%s/%s.json?';
         $format = trim(str_repeat("%s=%s&", count($this->params)-3), "&");
         return vsprintf($format, $this->params);
     }
 
-    function get($search_type, $query, $id, $facets) {
+    public function get($search_type, $query, $id, $facets) {
         array_push($this->params, $this->url, $search_type, $id, 'q', $query);
         options_build();
-        //sort out facets here
+        facets_build();
         array_push($this->params, "access_token", $this->$access_token);
+        $this->json_query = get_url();
     }
 
-    public function options_set($page=1, $per_page=25, $sort_by="", $sort_order="desc") {
-        if ($page != 1) {
-            $this->options["page"] = $page;
+    public function option_set($option, $value) {
+        $known_options = array("page", "per_page", "sort_by", "sort_order");
+        if ($option != "" && $value != "") {
+            if (in_array($option, $known_options)) {
+                $this->options[$option] = $value;
+            }
         }
-        if ($per_page != 25) {
-            $this->options["per_page"] = $per_page;
-        }
-        if ($sort_by != "") {
-            $this->options["sort_by"] = $sort_by;
-        }
-        if ($sort_order != "desc") {
-            $this->options["sort_order"] = $sort_order;
+    }
+
+    public function option_unset($option) {
+        $known_options = array("page", "per_page", "sort_by", "sort_order");
+        if (array_key_exists($option, $this->options)) {
+            if (in_array($option, $known_options)) {
+                $this->options[$option] = "";
+            }
         }
     }
 
     private function options_build() {
         foreach ($this->options as $k=>$v) {
-            switch ($k) {
-                case "page":
-                    if ($v != "") {
-                        array_push($this->params, $k, $v);
-                    }
-                    break;
-                case "per_page":
-                    if ($v != "") {
-                        array_push($this->params, $k, $v);
-                    }
-                    break;
-                case "sort_by":
-                    if ($v != "") {
-                        array_push($this->params, $k, $v);
-                    }
-                    break;
-                case "sort_order":
-                    if ($v != "") {
-                        array_push($this->params, $k, $v);
-                    }
-                    break;
-            }
+            array_push($this->params, $k, $v)
         }
     }
 
+    public function facet_set($facet, $value) {
+        if ($facet != "" && $value != "") {
+            $this->facets[$facet] = $value;
+        }
+    }
+
+    public function facet_unset($facet) {
+        if (array_key_exists($facet, $this->facets)) {
+            unset($this->facets[$facet]);
+        }
+    }
+
+    private function facets_build() {
+        foreach ($this->facets as $k=>$v) {
+            array_push($this->params, "facets[".$k."][]", $v);
+        }
+    }
+
+    public function json_output() {
+        if ($this->json_query != "") {
+            $json = get_file_contents($this-json_query);
+            return json_decode($json);
+        } else {
+            die("Assay Depot Query URL is empty.");
+        }
+    }
 }
 
 ?>
