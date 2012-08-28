@@ -37,11 +37,11 @@ class assaydepot {
         return vsprintf($format, $this->params);
     }
 
-    public function search($search_type, $query) {
+    public function search($search_type, $query="") {
         array_push($this->params, $this->url, $search_type, 'q', $query);
         options_build();
         facets_build();
-        array_push($this->params, "access_token", $this->$access_token);
+        array_push($this->params, "access_token", $this->access_token);
         $this->json_query = search_url();
     }
 
@@ -58,11 +58,11 @@ class assaydepot {
         return vsprintf($format, $this->params);
     }
 
-    public function get($search_type, $query, $id) {
+    public function get($search_type, $query="", $id) {
         array_push($this->params, $this->url, $search_type, $id, 'q', $query);
-        options_build();
+        options_build()
         facets_build();
-        array_push($this->params, "access_token", $this->$access_token);
+        array_push($this->params, "access_token", $this->access_token);
         $this->json_query = get_url();
     }
 
