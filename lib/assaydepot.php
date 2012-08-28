@@ -1,6 +1,6 @@
 <?php
 
-class AssayDepot {
+class assaydepot {
 
     private $access_token;
     private $url;
@@ -12,10 +12,11 @@ class AssayDepot {
     /**
      * Set private variables to be used throughout class
      */
-    private function __construct($access_token, $url) {
+    function __construct($access_token, $url) {
         $this->access_token = $access_token;
         $this->url = $url;
         $this->params = array();
+        $this->facets = array();
         $this->options = array("page" => "",
                                "per_page" => "",
                                "sort_by" => "",
@@ -36,7 +37,7 @@ class AssayDepot {
         return vsprintf($format, $this->params);
     }
 
-    public function search($search_type, $query, $facets) {
+    public function search($search_type, $query) {
         array_push($this->params, $this->url, $search_type, 'q', $query);
         options_build();
         facets_build();
@@ -57,7 +58,7 @@ class AssayDepot {
         return vsprintf($format, $this->params);
     }
 
-    public function get($search_type, $query, $id, $facets) {
+    public function get($search_type, $query, $id) {
         array_push($this->params, $this->url, $search_type, $id, 'q', $query);
         options_build();
         facets_build();
@@ -93,7 +94,7 @@ class AssayDepot {
 
     private function options_build() {
         foreach ($this->options as $k=>$v) {
-            array_push($this->params, $k, $v)
+            array_push($this->params, $k, $v);
         }
     }
 
