@@ -130,7 +130,7 @@ class assaydepot {
      */
     public function json_output() {
         if ($this->json_query != "") {
-            $json = get_file_contents($this->json_query);
+            $json = file_get_contents($this->json_query);
             return json_decode($json, true);
         } else {
             die("Assay Depot Query URL is empty.");
