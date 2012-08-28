@@ -39,10 +39,10 @@ class assaydepot {
 
     public function search($search_type, $query="") {
         array_push($this->params, $this->url, $search_type, 'q', $query);
-        options_build();
-        facets_build();
+        $this->options_build();
+        $this->facets_build();
         array_push($this->params, "access_token", $this->access_token);
-        $this->json_query = search_url();
+        $this->json_query = $this->search_url();
     }
 
     /**
@@ -60,10 +60,10 @@ class assaydepot {
 
     public function get($search_type, $query="", $id) {
         array_push($this->params, $this->url, $search_type, $id, 'q', $query);
-        options_build()
-        facets_build();
+        $this->options_build();
+        $this->facets_build();
         array_push($this->params, "access_token", $this->access_token);
-        $this->json_query = get_url();
+        $this->json_query = $this->get_url();
     }
 
     /**
@@ -133,7 +133,7 @@ class assaydepot {
      */
     public function json_output() {
         if ($this->json_query != "") {
-            $json = get_file_contents($this-json_query);
+            $json = get_file_contents($this->json_query);
             return json_decode($json, true);
         } else {
             die("Assay Depot Query URL is empty.");
