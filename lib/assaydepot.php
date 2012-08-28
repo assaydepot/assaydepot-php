@@ -84,7 +84,7 @@ class assaydepot {
         $known_options = array("page", "per_page", "sort_by", "sort_order");
         if (array_key_exists($option, $this->options)) {
             if (in_array($option, $known_options)) {
-                $this->options[$option] = "";
+                unset($this->options[$option]);
             }
         }
     }
