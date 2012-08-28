@@ -55,7 +55,7 @@ class assaydepot {
         return vsprintf($format, $this->params);
     }
 
-    public function get($search_type, $query="", $id) {
+    public function get($search_type, $id, $query="") {
         array_push($this->params, $this->url, $search_type, $id, 'q', $query);
         $this->options_build();
         $this->facets_build();
@@ -131,6 +131,7 @@ class assaydepot {
     public function json_output() {
         if ($this->json_query != "") {
             $json = file_get_contents($this->json_query);
+            $this->params = array();
             return json_decode($json, true);
         } else {
             die("Assay Depot Query URL is empty.");
