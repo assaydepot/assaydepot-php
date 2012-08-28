@@ -17,10 +17,7 @@ class assaydepot {
         $this->url = $url;
         $this->params = array();
         $this->facets = array();
-        $this->options = array("page" => "",
-                               "per_page" => "",
-                               "sort_by" => "",
-                               "sort_order" => "");
+        $this->options = array();
     }
 
     /**
@@ -33,7 +30,7 @@ class assaydepot {
      */
     private function search_url() {
         $format = '%s/%s.json?';
-        $format = trim(str_repeat("%s=%s&", count($this->params)-2), "&");
+        $format .= trim(str_repeat("%s=%s&", (count($this->params)-2)/2), "&");
         return vsprintf($format, $this->params);
     }
 
@@ -54,7 +51,7 @@ class assaydepot {
      */
     private function get_url() {
         $format = '%s/%s/%s.json?';
-        $format = trim(str_repeat("%s=%s&", count($this->params)-3), "&");
+        $format .= trim(str_repeat("%s=%s&", (count($this->params)-3)/2), "&");
         return vsprintf($format, $this->params);
     }
 
