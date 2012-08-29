@@ -29,7 +29,7 @@ $ad_api = new assaydepot($access_token, $url);
 
 ## Using this PHP SDK
 
-A number of function are available to the developer:
+A number of functions are available to the developer:
 
 *  search($search_type, $query="")
 *  get($search_type, $id, $query="")
