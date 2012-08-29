@@ -32,6 +32,9 @@ $ad_api = new assaydepot($access_token, $url);
 A number of functions are available to the developer:
 
 *  search($search_type, $query="")
+```php
+$ad_api->search('providers', 'antibody purification');
+```
 *  get($search_type, $id, $query="")
 *  option_set($option, $value)
 *  option_unset($option)
