@@ -10,7 +10,8 @@ class assaydepot {
     private $json_query;
 
     /**
-     * Set private variables to be used throughout class
+     * Set access token and url for api call, and create blank arrays
+     * for class methods to use.
      */
     function __construct($access_token, $url) {
         $this->access_token = $access_token;
@@ -22,11 +23,18 @@ class assaydepot {
 
     /**
      * search_url() - constructs URL for searching Assay Depot based
-     * on $params array
+     * on $params array, which is created prior to calling this
+     * method. This method returns a formatted URL to be used for
+     * makign the API call.
      *
-     * search() - combines all the pieces to build the URL into an
-     * array and then uses search_url() to reutrn the built URL string
-     * to pass into json_output().
+     * search($search_type, $query="") - combines all the pieces to build
+     * the URL into an array and then uses search_url() to reutrn the
+     * built URL string to use in json_output().
+     *    $search_type acceptable inputs:
+     *        1. 'wares'
+     *        2. 'providers'
+     *    $query: default set to "", and does not need to be set if
+     *            the intention is to return all possible results.
      */
     private function search_url() {
         $format = '%s/%s.json?';
@@ -43,11 +51,21 @@ class assaydepot {
     }
 
     /**
-     * get_url() - similar functionality to search_url() with an extra
-     * paramater
+     * get_url() - constructs URL for pulling information from Assay
+     * Depot based. $params array is created prior to calling this
+     * method and it's contents are used to build the url strign. This
+     * method returns a formatted URL to be used for makign the API
+     * call.
      *
-     * get() - similar functionality to search(), the difference being
-     * the information returned.
+     * get($search_type, $id, $query="") - combines all the pieces to build
+     * the URL into an array and then uses search_url() to reutrn the
+     * built URL string to use in json_output().
+     *    $search_type acceptable inputs:
+     *        1. 'wares'
+     *        2. 'providers'
+     *    $id: the id of the provider or ware to be returned
+     *    $query: default set to "", and does not need to be set if
+     *            the intention is to return all possible results.
      */
     private function get_url() {
         $format = '%s/%s/%s.json?';
@@ -66,7 +84,11 @@ class assaydepot {
     /**
      * option_set() - specifies a value for one of 4 known options.
      *
-     * option_unset() - removes the value previously set for an option
+     * option_unset() - removes the value previously set for an
+     * option. When reusing a class, options must be manually unset if
+     * you do not wish them to apply to the new api call. Options can
+     * be set, without first calling unset for cases like pagination
+     * and moving on to the next page of results.
      *
      * options_build() - takes the set options and adds them to
      * $params, which is used to build the URL strings
@@ -97,10 +119,11 @@ class assaydepot {
 
     /**
      * facet_set() - specifies a key/value pair for a facet. Can be
-     * set multiple times per URL.
+     * set multiple times per URL with different facets
      *
      * facet_unset() - removes the key/value pair previously set for a
-     * facet
+     * facet. When reusing a class, facets must be manually unset if
+     * you do not wish them to apply to the new api call.
      *
      * facets_build() - takes the set facets and adds them to
      * $params, which is used to build the URL strings
@@ -126,7 +149,11 @@ class assaydepot {
     /**
      * json_output() - takes the URL string built through get() or
      * search(), fetches the json string returned by the API, and then
-     * parses it to an associative array.
+     * parses it to an associative array. Prior to returning the
+     * result, the $params array is reset to an empty array to be
+     * ready for the new api call. $options and $facets retain their
+     * values and need to be manually unset prior to making another
+     * api call if needed.
      */
     public function json_output() {
         if ($this->json_query != "") {
