@@ -7,8 +7,11 @@ See http://assaydepot.github.com/api/json for API usage information.
 
 ## Assay Depot Developer Program
 
-An authentication token is required for the API to function. If you
-would like access to the API, please email cpetersen@assaydepot.com.
+Assay Depot's API authenticates using OAuth2. You will need to log in
+to your Assay Depot account, click **Dashboard**, and then click
+**Edit My Profile**. Choose the **Applications** tab and create a new
+application. Once created, click **Show** to obtain your client ID and
+client secret.
 
 ## Setup
 
@@ -21,6 +24,7 @@ function __autoload($class_name) {
     include $class_name . '.php';
 }
 
+// Access Token is generated via OAuth2
 $access_token = '1234abcd5678efgh9';
 $url = 'https://www.assaydepot.com/api';
 
@@ -46,6 +50,12 @@ A number of functions are available to the developer:
 function __autoload($class_name) {
     include $class_name . '.php';
 }
+
+/**
+ * Use the PHP OAuth2 Library of your choice to retrieve the access
+ * token.
+ * We have tested and used https://github.com/adoy/PHP-OAuth2
+ */
 
 // Set config variables for class
 $access_token = '1234abcd5678efgh9';
