@@ -4,6 +4,7 @@ PHP interface for Assay Depot's online laboratory
 (http://www.assaydepot.com).
 
 See http://assaydepot.github.com/api/json for API usage information.
+
 See https://github.com/assaydepot/assaydepot-php/wiki for more indepth
 examples on accessing the API via OAuth2.
 
