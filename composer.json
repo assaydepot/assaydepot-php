@@ -1,0 +1,22 @@
+{
+    "name": "assaydepot/assaydepot",
+    "type": "library",
+    "description": "Assay Depot's PHP SDK for its JSON API.",
+    "keywords": ["api","research","science","marketplace","oauth2"],
+    "homepage": "https://github.com/assaydepot/assaydepot-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Colin Burton",
+            "email": "cburton@assaydepot.com",
+            "homepage": "http://www.assaydepot.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": { "assaydepot": "lib/" }
+    }
+}
