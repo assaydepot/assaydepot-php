@@ -21,7 +21,7 @@ client secret.
 This library is available via
 [Packgist.org](https://packagist.org/packages/assaydepot/assaydepot "assaydepot/assaydepot")
 and can be installed with [Composer](http://getcomposer.org/download/ "Composer").
-Use Composer's autload feature to oad this along with any other required
+Use Composer's autload feature to load this along with any other required
 packages.
 
 **Please Note:** Using this library requires the use of an OAuth2
