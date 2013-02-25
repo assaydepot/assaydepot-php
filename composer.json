@@ -16,6 +16,9 @@
     "require": {
         "php": ">=5.3.3"
     },
+    "suggest": {
+        "adoy/oauth2": "OAuth2 client"
+    },
     "autoload": {
         "psr-0": { "assaydepot": "lib/" }
     }
