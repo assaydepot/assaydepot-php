@@ -18,21 +18,17 @@ client secret.
 
 ## Setup
 
-Place the assaydepot.php file in your apps 'include' directory. I
-recommend using the PHP class autoload function to include this (and
-all) classes whenever possible:
+This library is available via
+[Packgist.org](https://packagist.org/packages/assaydepot/assaydepot "assaydepot/assaydepot")
+and can be installed with [Composer](http://getcomposer.org/download/ "Composer").
+Use Composer's autload feature to oad this along with any other required
+packages.
 
-```php
-function __autoload($class_name) {
-    include $class_name . '.php';
-}
-
-// Access Token is generated via OAuth2
-$access_token = '1234abcd5678efgh9';
-$url = 'https://www.assaydepot.com/api';
-
-$ad_api = new assaydepot($access_token, $url);
-```
+**Please Note:** Using this library requires the use of an OAuth2
+client as well. The package available on Packagist suggests a package
+for this purpose, but feel free to use any OAuth2 package you are
+comfortable with. It must support Authorization Code and Client
+Credentials grant types.
 
 ## Using this PHP SDK
 
